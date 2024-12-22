@@ -49,7 +49,7 @@ const loader = new MMDLoader();
 // Load a MMD model
 loader.load(
 	// path to PMD/PMX file
-	'muscle3D.pmx',
+	'./muscle3D.pmx',
 	// called when the resource is loaded
 	function ( mesh ) {
 
