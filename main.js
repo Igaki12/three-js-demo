@@ -15,34 +15,53 @@ import * as THREE from 'three';
 
 // Creating the scene : https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-// renderer.setAnimationLoop( animate );
 
 // cameraを任意に動かせるようにする: https://qiita.com/dsudo/items/42da9c7f45ed6147395e
-renderer.setPixelRatio( window.devicePixelRatio );
-document.body.appendChild( renderer.domElement );
 
-単純なcubeを表示
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+// 1. canvas
+const canvas = document.querySelector("#threeObj");
+const width = canvas.clientWidth;
+const height = canvas.clientHeight;
 
-camera.position.z = 5;
+// 2. scene
+const scene = new THREE.Scene();
 
-function animate() {
+// 3. mesh (box)
+const box = new THREE.Mesh(
+  new THREE.BoxGeometry(64, 64, 64),
+  new THREE.MeshNormalMaterial()
+);
+box.position.set(0, 0, 0);
+scene.add(box);
 
-	cube.rotation.x += 0.01;
-	cube.rotation.y += 0.01;
+// 4. camera
+const camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000);
+camera.position.set(200, 100, 300);
+camera.lookAt(scene.position);
 
-	renderer.render( scene, camera );
+// 4-2. camera controls
+var controls = new THREE.OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
-}
-renderer.render( scene, camera );
+// 5. renderer
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setSize(width, height);
+renderer.setClearColor(0xf0d0d0);
+renderer.setPixelRatio(window.devicePixelRatio);
+
+// 6. animate
+const animate = () => {
+  // next frame
+  requestAnimationFrame(animate);
+
+  // required if controls.enableDamping or controls.autoRotate are set to true
+  controls.update();
+
+  // render
+  renderer.render(scene, camera);
+};
+
+animate();
 
 
 
