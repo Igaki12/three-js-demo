@@ -11,6 +11,7 @@
 //   }
 
 import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // import { THREE } from 'https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js'; 
 
 // Creating the scene : https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
@@ -40,7 +41,8 @@ camera.position.set(200, 100, 300);
 camera.lookAt(scene.position);
 
 // 4-2. camera controls
-var controls = new THREE.OrbitControls(camera, canvas);
+// https://threejs.org/docs/#examples/en/controls/OrbitControls からコピペ
+var controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
 // 5. renderer
