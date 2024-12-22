@@ -10,8 +10,8 @@
 //     }
 //   }
 
-// import * as THREE from 'three';
-import { THREE } from 'https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js'; 
+import * as THREE from 'three';
+// import { THREE } from 'https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js'; 
 
 // Creating the scene : https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
 
