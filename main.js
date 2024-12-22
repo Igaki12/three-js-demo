@@ -20,7 +20,7 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
-renderer.setAnimationLoop( animate );
+// renderer.setAnimationLoop( animate );
 document.body.appendChild( renderer.domElement );
 
 // 単純なcubeを表示
@@ -72,9 +72,9 @@ loader.load(
 );
 
 camera.position.z = 5;
-function animate () {
-	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.01;
-}
+// function animate () {
+// 	mesh.rotation.x += 0.01;
+// 	mesh.rotation.y += 0.01;
+// }
 renderer.render( scene, camera );
 
