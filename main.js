@@ -53,9 +53,14 @@ loader.load(
 	// PMXファイルだけでなく、arms.tgaなどのファイルと、Grid3.bmpファイルも読み込みには必要。
 	// called when the resource is loaded
 	function ( mesh ) {
-
+		camera.position.z = 5;
 		scene.add( mesh );
-
+		renderer.setAnimationLoop( animate );
+		function animate() {
+			mesh.rotation.x += 0.01;
+			mesh.rotation.y += 0.01;
+		}
+		renderer.render( scene, camera );
 	},
 	// called when loading is in progress
 	function ( xhr ) {
@@ -71,10 +76,10 @@ loader.load(
 	}
 );
 
-camera.position.z = 5;
-// function animate () {
-// 	mesh.rotation.x += 0.01;
-// 	mesh.rotation.y += 0.01;
-// }
-renderer.render( scene, camera );
+// camera.position.z = 5;
+// // function animate () {
+// // 	mesh.rotation.x += 0.01;
+// // 	mesh.rotation.y += 0.01;
+// // }
+// renderer.render( scene, camera );
 
