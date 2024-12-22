@@ -40,46 +40,52 @@ document.body.appendChild( renderer.domElement );
 
 // }
 
-// https://threejs.org/docs/#examples/en/loaders/MMDLoader からMuscle3Dモデルを読み込む
-import { MMDLoader } from 'three/addons/loaders/MMDLoader.js';
+// https://threejs.org/docs/#api/en/objects/SkinnedMesh からコピペして3Dモデルを表示
 
-// Instantiate a loader
-const loader = new MMDLoader();
+const geometry = new THREE.CylinderGeometry( 5, 5, 5, 5, 15, 5, 30 );
 
-// Load a MMD model
-loader.load(
-	// path to PMD/PMX file
-	'muscle3D/筋肉たんver.0.99E.pmx',
-	// PMXファイルだけでなく、arms.tgaなどのファイルと、Grid3.bmpファイルも読み込みには必要。
-	// called when the resource is loaded
-	async function ( mesh ) {
-		// camera.position.z = 5;
-		scene.add( mesh );
-		// renderer.setAnimationLoop( animate );
-		// function animate() {
-		// 	mesh.rotation.x += 0.01;
-		// 	mesh.rotation.y += 0.01;
-		// }
-		// renderer.render( scene, camera );
-	},
-	// called when loading is in progress
-	function ( xhr ) {
+// create the skin indices and skin weights manually
+// (typically a loader would read this data from a 3D model for you)
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+const position = geometry.attributes.position;
 
-	},
-	// called when loading has errors
-	function ( error ) {
+const vertex = new THREE.Vector3();
 
-		console.log( 'An error happened' );
+const skinIndices = [];
+const skinWeights = [];
 
-	}
-);
+for ( let i = 0; i < position.count; i ++ ) {
 
-camera.position.z = 5;
-// // function animate () {
-// // 	mesh.rotation.x += 0.01;
-// // 	mesh.rotation.y += 0.01;
-// // }
-renderer.render( scene, camera );
+	vertex.fromBufferAttribute( position, i );
 
+	// compute skinIndex and skinWeight based on some configuration data
+	const y = ( vertex.y + sizing.halfHeight );
+	const skinIndex = Math.floor( y / sizing.segmentHeight );
+	const skinWeight = ( y % sizing.segmentHeight ) / sizing.segmentHeight;
+	skinIndices.push( skinIndex, skinIndex + 1, 0, 0 );
+	skinWeights.push( 1 - skinWeight, skinWeight, 0, 0 );
+}
+
+geometry.setAttribute( 'skinIndex', new THREE.Uint16BufferAttribute( skinIndices, 4 ) );
+geometry.setAttribute( 'skinWeight', new THREE.Float32BufferAttribute( skinWeights, 4 ) );
+
+// create skinned mesh and skeleton
+
+const mesh = new THREE.SkinnedMesh( geometry, material );
+const skeleton = new THREE.Skeleton( bones );
+
+// see example from THREE.Skeleton
+const rootBone = skeleton.bones[ 0 ];
+mesh.add( rootBone );
+
+// bind the skeleton to the mesh
+mesh.bind( skeleton );
+
+// move the bones and manipulate the model
+skeleton.bones[ 0 ].rotation.x = -0.1;
+skeleton.bones[ 1 ].rotation.x = 0.2;
+
+scene.add(mesh);
+
+camera.position.z = 15;
+ renderer.render( scene, camera );
