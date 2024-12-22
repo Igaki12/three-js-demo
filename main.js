@@ -10,7 +10,6 @@
 //     }
 //   }
 
-import { render } from 'react-dom';
 import * as THREE from 'three';
 // import { THREE } from 'https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js'; 
 
@@ -49,7 +48,7 @@ const loader = new MMDLoader();
 // Load a MMD model
 loader.load(
 	// path to PMD/PMX file
-	'./muscle3D.pmx',
+	'muscle3D.pmx',
 	// called when the resource is loaded
 	function ( mesh ) {
 
