@@ -23,6 +23,7 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.setAnimationLoop( animate );
 document.body.appendChild( renderer.domElement );
 
+// 単純なcubeを表示
 // const geometry = new THREE.BoxGeometry( 1, 1, 1 );
 // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
 // const cube = new THREE.Mesh( geometry, material );
@@ -49,6 +50,7 @@ const loader = new MMDLoader();
 loader.load(
 	// path to PMD/PMX file
 	'muscle3D/筋肉たんver.0.99E.pmx',
+	// PMXファイルだけでなく、arms.tgaなどのファイルと、Grid3.bmpファイルも読み込みには必要。
 	// called when the resource is loaded
 	function ( mesh ) {
 
