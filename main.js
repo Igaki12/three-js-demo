@@ -33,6 +33,8 @@ const box = new THREE.Mesh(
 	new THREE.MeshNormalMaterial()
 );
 box.position.set(0, 0, 0);
+console.log("box : ");
+console.log(box);
 scene.add(box);
 
 // 4. camera
