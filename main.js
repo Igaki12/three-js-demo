@@ -66,4 +66,52 @@ const animate = () => {
 animate();
 
 
+// ここからMMD Loaderを用いて原神3Dモデルを読み込む
+
+import { MMDLoader } from 'three/addons/loaders/MMDLoader.js';
+
+const genshin3DCanvas = document.querySelector("#genshin3D");
+const genshin3DWidth = genshin3DCanvas.clientWidth;
+const genshin3DHeight = genshin3DCanvas.clientHeight;
+
+const scene2 = new THREE.Scene();
+const camera2 = new THREE.PerspectiveCamera(45, genshin3DWidth / genshin3DHeight, 1, 1000);
+camera2.position.set(200, 100, 300);
+camera2.lookAt(scene2.position);
+
+// Instantiate a loader
+const loader = new MMDLoader();
+
+// Load a MMD model
+loader.load(
+	// path to PMD/PMX file
+	'xTWxQElkf0/万叶.pmx',
+	// called when the resource is loaded
+	function ( mesh ) {
+
+		scene.add( mesh );
+		const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
+		renderer2.setSize(genshin3DWidth, genshin3DHeight);
+		renderer2.setClearColor(0xf0d0d0);
+		renderer2.setPixelRatio(window.devicePixelRatio);
+		renderer2.render(scene2, camera2);
+		
+
+	},
+	// called when loading is in progress
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+);
+
+
+
 
