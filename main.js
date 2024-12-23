@@ -68,11 +68,9 @@ const animate = () => {
 animate();
 
 
-// ここからMMD Loaderを用いて原神3Dモデルを読み込む : https://threejs.org/docs/?q=mmd#examples/en/animations/MMDPhysics
+// ここからMMD Loaderを用いて原神3Dモデルを読み込む : https://threejs.org/docs/?q=mmd#examples/en/animations/MMDLoader
 
 import { MMDLoader } from 'three/addons/loaders/MMDLoader.js';
-import { MMDPhysics } from 'three/addons/animation/MMDPhysics.js';
-let physics;
 
 
 window.onload = async () => {
@@ -90,16 +88,21 @@ window.onload = async () => {
 	// Instantiate a loader
 	const loader = new MMDLoader();
 
+	// ground
+	const mesh = new THREE.Mesh( new THREE.PlaneGeometry( 100, 100 ), new THREE.MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
+				mesh.rotation.x = - Math.PI / 2;
+				mesh.receiveShadow = true;
+				scene.add( mesh );
+
 	// Load a MMD model
 	loader.load(
 		// path to PMD/PMX file
 		'xTWxQElkf0/万叶.pmx',
 		// called when the resource is loaded
-		async function (mesh) {
-			console.log("mesh : ");
-			console.log(mesh);
-			physics = new MMDPhysics(mesh);
-			scene2.add(mesh);
+		async function (model) {
+			console.log("model : ");
+			console.log(model);
+			scene2.add(model);
 
 
 
@@ -123,18 +126,6 @@ window.onload = async () => {
 	renderer2.setClearColor(0xf0d0d0);
 	renderer2.setPixelRatio(window.devicePixelRatio);
 	renderer2.render(scene2, camera2);
-
-	function render() {
-
-		const delta = clock.getDelta();
-		// animate( delta );  // update bones
-		if ( physics !== undefined ) physics.update( delta );
-		renderer2.render( scene2, camera2 );
-	
-	}
-
-	const clock = new THREE.Clock();
-	render();
 }
 
 // https://blog.one-cut.xyz/%E3%80%90javascript%E3%80%91mmd%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%A7%E5%8B%95%E3%81%8B%E3%81%99-three-js%E3%81%A73d%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9/ を参考に、MMDモデルを読み込んでからレンダリングするように変更した。
