@@ -81,8 +81,7 @@ window.onload = async () => {
 
 	const scene2 = new THREE.Scene();
 	const camera2 = new THREE.PerspectiveCamera(45, genshin3DWidth / genshin3DHeight, 1, 1000);
-	camera2.position.set(200, 100, 300);
-	camera2.lookAt(scene2.position);
+
 
 	// Instantiate a loader
 	const loader = new MMDLoader();
@@ -113,6 +112,8 @@ window.onload = async () => {
 
 		}
 	);
+	camera2.position.set(200, 100, 300);
+	camera2.lookAt(scene2.position);
 	const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
 	renderer2.setSize(genshin3DWidth, genshin3DHeight);
 	renderer2.setClearColor(0xf0d0d0);
