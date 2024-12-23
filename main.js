@@ -29,8 +29,8 @@ const scene = new THREE.Scene();
 
 // 3. mesh (box)
 const box = new THREE.Mesh(
-  new THREE.BoxGeometry(64, 64, 64),
-  new THREE.MeshNormalMaterial()
+	new THREE.BoxGeometry(64, 64, 64),
+	new THREE.MeshNormalMaterial()
 );
 box.position.set(0, 0, 0);
 scene.add(box);
@@ -53,14 +53,14 @@ renderer.setPixelRatio(window.devicePixelRatio);
 
 // 6. animate
 const animate = () => {
-  // next frame
-  requestAnimationFrame(animate);
+	// next frame
+	requestAnimationFrame(animate);
 
-  // required if controls.enableDamping or controls.autoRotate are set to true
-  controls.update();
+	// required if controls.enableDamping or controls.autoRotate are set to true
+	controls.update();
 
-  // render
-  renderer.render(scene, camera);
+	// render
+	renderer.render(scene, camera);
 };
 
 animate();
@@ -70,47 +70,53 @@ animate();
 
 import { MMDLoader } from 'three/addons/loaders/MMDLoader.js';
 
-const genshin3DCanvas = document.querySelector("#genshin3D");
-const genshin3DWidth = genshin3DCanvas.clientWidth;
-const genshin3DHeight = genshin3DCanvas.clientHeight;
 
-const scene2 = new THREE.Scene();
-const camera2 = new THREE.PerspectiveCamera(45, genshin3DWidth / genshin3DHeight, 1, 1000);
-camera2.position.set(200, 100, 300);
-camera2.lookAt(scene2.position);
+window.onload = async () => {
 
-// Instantiate a loader
-const loader = new MMDLoader();
+	const genshin3DCanvas = document.querySelector("#genshin3D");
+	const genshin3DWidth = genshin3DCanvas.clientWidth;
+	const genshin3DHeight = genshin3DCanvas.clientHeight;
 
-// Load a MMD model
-loader.load(
-	// path to PMD/PMX file
-	'xTWxQElkf0/万叶.pmx',
-	// called when the resource is loaded
-	function ( mesh ) {
+	const scene2 = new THREE.Scene();
+	const camera2 = new THREE.PerspectiveCamera(45, genshin3DWidth / genshin3DHeight, 1, 1000);
+	camera2.position.set(200, 100, 300);
+	camera2.lookAt(scene2.position);
 
-		scene.add( mesh );
-		const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
-		renderer2.setSize(genshin3DWidth, genshin3DHeight);
-		renderer2.setClearColor(0xf0d0d0);
-		renderer2.setPixelRatio(window.devicePixelRatio);
-		renderer2.render(scene2, camera2);
-		
+	// Instantiate a loader
+	const loader = new MMDLoader();
 
-	},
-	// called when loading is in progress
-	function ( xhr ) {
+	// Load a MMD model
+	loader.load(
+		// path to PMD/PMX file
+		'xTWxQElkf0/万叶.pmx',
+		// called when the resource is loaded
+		function (mesh) {
 
-		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+			scene.add(mesh);
+			const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
+			renderer2.setSize(genshin3DWidth, genshin3DHeight);
+			renderer2.setClearColor(0xf0d0d0);
+			renderer2.setPixelRatio(window.devicePixelRatio);
+			renderer2.render(scene2, camera2);
 
-	},
-	// called when loading has errors
-	function ( error ) {
 
-		console.log( 'An error happened' );
+		},
+		// called when loading is in progress
+		function (xhr) {
 
-	}
-);
+			console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+		},
+		// called when loading has errors
+		function (error) {
+
+			console.log('An error happened');
+
+		}
+	);
+}
+
+// https://blog.one-cut.xyz/%E3%80%90javascript%E3%80%91mmd%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%A7%E5%8B%95%E3%81%8B%E3%81%99-three-js%E3%81%A73d%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9/ を参考に、MMDモデルを読み込んでからレンダリングするように変更した。
 
 
 
