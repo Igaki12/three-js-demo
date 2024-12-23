@@ -68,9 +68,11 @@ const animate = () => {
 animate();
 
 
-// ここからMMD Loaderを用いて原神3Dモデルを読み込む
+// ここからMMD Loaderを用いて原神3Dモデルを読み込む : https://threejs.org/docs/?q=mmd#examples/en/animations/MMDPhysics
 
 import { MMDLoader } from 'three/addons/loaders/MMDLoader.js';
+import { MMDPhysics } from 'three/addons/animation/MMDPhysics.js';
+let physics;
 
 
 window.onload = async () => {
@@ -81,6 +83,8 @@ window.onload = async () => {
 
 	const scene2 = new THREE.Scene();
 	const camera2 = new THREE.PerspectiveCamera(45, genshin3DWidth / genshin3DHeight, 1, 1000);
+	camera2.position.set(200, 100, 300);
+	camera2.lookAt(scene2.position);
 
 
 	// Instantiate a loader
@@ -94,8 +98,9 @@ window.onload = async () => {
 		async function (mesh) {
 			console.log("mesh : ");
 			console.log(mesh);
-			mesh.position.set(0, 0, 0);
+			physics = new MMDPhysics(mesh);
 			scene2.add(mesh);
+
 
 
 		},
@@ -112,21 +117,24 @@ window.onload = async () => {
 
 		}
 	);
-	camera2.position.set(200, 100, 300);
-	camera2.lookAt(scene2.position);
+
 	const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
 	renderer2.setSize(genshin3DWidth, genshin3DHeight);
 	renderer2.setClearColor(0xf0d0d0);
 	renderer2.setPixelRatio(window.devicePixelRatio);
 	renderer2.render(scene2, camera2);
 
+	function render() {
 
-	// レンダリングループ
-	function animate2() {
-		requestAnimationFrame(animate);
-		renderer2.render(scene2, camera2);
+		const delta = clock.getDelta();
+		// animate( delta );  // update bones
+		if ( physics !== undefined ) physics.update( delta );
+		renderer2.render( scene2, camera2 );
+	
 	}
-	animate2();
+
+	const clock = new THREE.Clock();
+	render();
 }
 
 // https://blog.one-cut.xyz/%E3%80%90javascript%E3%80%91mmd%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%A7%E5%8B%95%E3%81%8B%E3%81%99-three-js%E3%81%A73d%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9/ を参考に、MMDモデルを読み込んでからレンダリングするように変更した。
