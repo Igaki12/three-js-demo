@@ -91,6 +91,8 @@ window.onload = async () => {
 		'xTWxQElkf0/万叶.pmx',
 		// called when the resource is loaded
 		function (mesh) {
+			console.log("mesh : ");
+			console.log(mesh);
 
 			scene2.add(mesh);
 
