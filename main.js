@@ -74,8 +74,8 @@ import { MMDLoader } from 'three/addons/loaders/MMDLoader.js';
 window.onload = async () => {
 
 	const genshin3DCanvas = document.querySelector("#genshin3D");
-	const genshin3DWidth = "500px";
-	const genshin3DHeight = "500px";
+	const genshin3DWidth = genshin3DCanvas.clientWidth;
+	const genshin3DHeight = genshin3DCanvas.clientHeight;
 
 	const scene2 = new THREE.Scene();
 	const camera2 = new THREE.PerspectiveCamera(45, genshin3DWidth / genshin3DHeight, 1, 1000);
