@@ -86,7 +86,7 @@ window.onload = async () => {
 	const loader = new MMDLoader();
 
 	// Load a MMD model
-	let mmd = await loader.load(
+	loader.load(
 		// path to PMD/PMX file
 		'xTWxQElkf0/万叶.pmx',
 		// called when the resource is loaded
