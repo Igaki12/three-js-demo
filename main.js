@@ -86,18 +86,13 @@ window.onload = async () => {
 	const loader = new MMDLoader();
 
 	// Load a MMD model
-	loader.load(
+	let mmd = await loader.load(
 		// path to PMD/PMX file
 		'xTWxQElkf0/万叶.pmx',
 		// called when the resource is loaded
 		function (mesh) {
 
 			scene.add(mesh);
-			const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
-			renderer2.setSize(genshin3DWidth, genshin3DHeight);
-			renderer2.setClearColor(0xf0d0d0);
-			renderer2.setPixelRatio(window.devicePixelRatio);
-			renderer2.render(scene2, camera2);
 
 
 		},
@@ -114,6 +109,11 @@ window.onload = async () => {
 
 		}
 	);
+	const renderer2 = new THREE.WebGLRenderer({ canvas: genshin3DCanvas, antialias: true });
+	renderer2.setSize(genshin3DWidth, genshin3DHeight);
+	renderer2.setClearColor(0xf0d0d0);
+	renderer2.setPixelRatio(window.devicePixelRatio);
+	renderer2.render(scene2, camera2);
 }
 
 // https://blog.one-cut.xyz/%E3%80%90javascript%E3%80%91mmd%E3%83%A2%E3%83%87%E3%83%AB%E3%82%92%E3%83%96%E3%83%A9%E3%82%A6%E3%82%B6%E3%81%A7%E5%8B%95%E3%81%8B%E3%81%99-three-js%E3%81%A73d%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9/ を参考に、MMDモデルを読み込んでからレンダリングするように変更した。
