@@ -92,7 +92,7 @@ window.onload = async () => {
 		// called when the resource is loaded
 		function (mesh) {
 
-			scene.add(mesh);
+			scene2.add(mesh);
 
 
 		},
