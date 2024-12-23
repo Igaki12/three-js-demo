@@ -90,10 +90,10 @@ window.onload = async () => {
 		// path to PMD/PMX file
 		'xTWxQElkf0/万叶.pmx',
 		// called when the resource is loaded
-		function (mesh) {
+		async function (mesh) {
 			console.log("mesh : ");
 			console.log(mesh);
-
+			mesh.position.set(0, 0, 0);
 			scene2.add(mesh);
 
 
